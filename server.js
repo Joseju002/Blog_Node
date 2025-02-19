@@ -1,10 +1,15 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const articleRouter = require('./routes/articles')
+const mongoDB = require('./bbdd')
 
 const app = express();
 
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: false }));
 app.use('/articles', articleRouter);
+
+mongoDB.connectDB();
 
 const port = process.env.PORT || 3000;
 
