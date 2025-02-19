@@ -1,5 +1,5 @@
 const express = require('express');
-const Article = require('../bbdd').article;
+const Article = require('../models/article');
 const router = express.Router();
 
 router.get('/new', (req, res) => {
@@ -7,7 +7,11 @@ router.get('/new', (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    res.send(req.params.id)
+    const article = await Article.findById(req.params.id);
+    if (article == null) {
+        res.redirect('/');
+    }
+    res.render('articles/show', {article: article});
 });
 
 router.post('/', async (req, res) => {

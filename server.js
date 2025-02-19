@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const Article = require('./models/article');
 const articleRouter = require('./routes/articles')
 const mongoDB = require('./bbdd')
 
@@ -9,21 +10,12 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use('/articles', articleRouter);
 
-mongoDB.connectDB();
+mongoDB();
 
 const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-    const articles = [{
-        title: 'Artiulo de prueba',
-        createdAt: new Date(),
-        description: 'Descripcion de prueba'
-    },
-    {
-        title: 'Artiulo 2',
-        createdAt: new Date(),
-        description: 'Descripcion de prueba número 2'
-    }]
+app.get('/', async (req, res) => {
+    const articles = await Article.find().sort({ createdAt: 'desc' });
     res.render('articles/index', { articles: articles });
 });
 
