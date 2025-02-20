@@ -1,5 +1,7 @@
+const config = require('./config');
+
 const mongoose = require('mongoose');
-const mongoDBURI = "mongodb+srv://Jose:8136663461@clusterblog.7spxx.mongodb.net/";
+const mongoDBURI = `mongodb+srv://Jose:${config.MONGODB_PASS}@clusterblog.7spxx.mongodb.net/`;
 
 const connectDB = async () => {
     try {
